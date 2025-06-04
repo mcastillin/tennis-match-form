@@ -1,0 +1,13 @@
+{
+  "name": "tennis-tracker-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Simple CLI for tracking tennis matches",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
