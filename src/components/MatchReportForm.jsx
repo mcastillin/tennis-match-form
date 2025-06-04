@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { validateScore, isNumeric } from '../utils/validation'
+import { validateScore, isNumeric, parsePoints } from '../utils/validation'
 import PreviewPanel from './PreviewPanel'
 
 const STORAGE_KEY = 'match-report-form'
@@ -60,7 +60,7 @@ export default function MatchReportForm() {
         await fetch('https://formspree.io/f/placeholder', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form)
+          body: JSON.stringify(data)
         })
       } catch (err) {
         console.error('Email failed', err)
@@ -71,9 +71,7 @@ export default function MatchReportForm() {
 
   const data = {
     ...form,
-    pointsPlayed: form.pointsPlayed
-      ? form.pointsPlayed.split(/\n+/).map((line) => line.trim()).filter(Boolean)
-      : []
+    pointsPlayed: parsePoints(form.pointsPlayed)
   }
 
   return (
@@ -107,8 +105,14 @@ export default function MatchReportForm() {
           </div>
         </div>
         <div>
-          <label className="block text-sm">Points Played (one line per game)</label>
-          <textarea value={form.pointsPlayed} onChange={update('pointsPlayed')} rows="4" className="w-full border rounded p-2" placeholder="7,@2,@1,5"></textarea>
+          <label className="block text-sm">Points Played (score & player line followed by points)</label>
+          <textarea
+            value={form.pointsPlayed}
+            onChange={update('pointsPlayed')}
+            rows="6"
+            className="w-full border rounded p-2"
+            placeholder={`0-0 Giacomo\n7,1,1,1\n0-1 Mattia\n@3,4,4,5`}
+          ></textarea>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>

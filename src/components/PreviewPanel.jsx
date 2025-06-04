@@ -14,7 +14,7 @@ export default function PreviewPanel({ data }) {
   }
 
   const totalGames = data.pointsPlayed?.length || 0
-  const totalPoints = data.pointsPlayed?.reduce((sum, line) => sum + line.split(',').length, 0) || 0
+  const totalPoints = data.pointsPlayed?.reduce((sum, g) => sum + g.points.length, 0) || 0
   const winnerDiff = (parseInt(data.winnersA || 0) - parseInt(data.winnersB || 0))
 
   return (
